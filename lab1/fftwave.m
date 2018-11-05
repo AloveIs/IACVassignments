@@ -32,8 +32,10 @@ function fftwave(u, v, sz)
         vc = v - 1 - sz;
     end
 
-    wavelength = 0.0;  % Replace by correct expression 
-    amplitude = 0.0;   % Replace by correct expression
+    wavelength = 1/sqrt(uc*uc+vc*vc);  % Replace by correct expression 
+    % by already simplifying the expression the amplitude
+    % is just the value of the complex exponent:
+    amplitude = 1/(sz*sz);   % Replace by correct expression
 
     subplot(3, 2, 2);
     showgrey(fftshift(Fhat));
