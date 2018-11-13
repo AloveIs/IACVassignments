@@ -32,7 +32,7 @@ function fftwave(u, v, sz)
         vc = v - 1 - sz;
     end
 
-    wavelength = 1/sqrt(uc*uc+vc*vc);  % Replace by correct expression 
+    wavelength = sz/sqrt(uc*uc+vc*vc);  % Replace by correct expression 
     % by already simplifying the expression the amplitude
     % is just the value of the complex exponent:
     amplitude = 1/(sz*sz);   % Replace by correct expression
