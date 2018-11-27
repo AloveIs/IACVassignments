@@ -65,11 +65,10 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
     
     if verbose
         showgrey(acc);
-        return;
     end
             
     % Extract local maxima from the accumulator
-    linpar = [];
+    linepar = [];
     [pos, value] = locmax8(acc);
     [dummy, indexvector] = sort(value);
     nmaxima = size(value, 1);
@@ -82,9 +81,9 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
         %compute theta
         theta = -90 + (thetaidxacc-1)* 180/ntheta;
         %compute rho
-        rho = (rhoidxacc-1)*delta_rho;
+        rho = rho_min + (rhoidxacc-1)*delta_rho;
         
-        linpar = [linpar; rho theta];
+        linepar = [linepar; rho theta];
     end
     
     

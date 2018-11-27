@@ -1,6 +1,6 @@
 function [linepar, acc] = houghedgeline(pic, scale, gradmagnthreshold, nrho, ntheta, nlines, verbose)
     
-    curves = extractedge(pic, scale,1,'same');
+    curves = extractedge(pic, scale,1,'same')
     
     disp(max(curves(1,:)));
     disp(max(curves(2,:)));
