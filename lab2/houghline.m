@@ -26,11 +26,6 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
        fprintf("drho %g \t dtheta %g", delta_rho,delta_theta); 
     end
     
-    % Loop over all the input curves (cf. pixelplotcurves)
-    insize = size(curves, 2);
-    trypointer = 1;
-    numcurves = 0;
-    
     curves_matrix=pixelplotcurves(zeros(size(magnitude)),curves,1);
     
     for x=1:size(curves_matrix,2)
@@ -64,47 +59,6 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
         end
     end
     
-    
-    
-    if false     
-        while(trypointer <= insize)
-            polylength = curves(2, trypointer);
-            numcurves = numcurves + 1;
-            trypointer = trypointer + 1;
-            % For each point on each curve
-
-            for polyidx = 1:polylength
-
-                x = floor(curves(2, trypointer)) + 1;
-                y = floor(curves(1, trypointer)) + 1;
-
-                % Check if valid point with respect to threshold
-                if(magnitude(x,y) - threshold <= 0)
-                    trypointer = trypointer + 1;
-                    continue;
-                end
-
-                % Optionally, keep value from magnitude image
-
-                % Loop over a set of theta values
-                for theta_idx = 1 : ntheta
-                    theta = thetas(theta_idx);
-                    % Compute rho for each theta value
-                    rho = cosd(theta)*x + sind(theta)*y;
-                    % Compute index values in the accumulator space
-                    rho_idx = floor((rho-rho_min)/delta_rho)+1;
-                    if(rho-rhos(rho_idx) >= delta_rho)
-                        disp(rho-rhos(rho_idx))
-                    end
-
-                    % Update the accumulator
-                    acc(theta_idx, rho_idx) = acc(theta_idx, rho_idx) + 1;
-                end
-
-                trypointer = trypointer + 1;
-            end
-        end
-    end
     
     if verbose
         showgrey(acc);
@@ -145,31 +99,5 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
         linepar(1, 4*(i-1) + 4) = x0+dx;
         linepar(2, 4*(i-1) + 4) = y0+dy;
     end
-    return;
-    
-    
-    % Extract local maxima from the accumulator
-    linepar = [];
-    [pos, value] = locmax8(acc);
-    [~, indexvector] = sort(value);
-    nmaxima = size(value, 1);
-    % Delimit the number of responses if necessary
-    % Compute a line for each one of the strongest responses in the accumulator
-    for idx = 1:nlines
-        rhoidxacc = pos(indexvector(nmaxima - idx + 1), 1);
-        thetaidxacc = pos(indexvector(nmaxima - idx + 1), 2);
-        
-        %compute theta
-        theta = thetas(thetaidxacc); %-90 + (thetaidxacc-1)* 180/ntheta;
-        %compute rho
-        rho = rhos(rhoidxacc);%rho_min + (rhoidxacc-1)*delta_rho;
-        
-        linepar = [linepar; rho theta];
-    end
-    
-    
-    
-    % Overlay these curves on the gradient magnitude image
-    % Return the output data
 end
 
