@@ -1,5 +1,8 @@
-function overlaycurves(image, curves)
+function overlaycurves(image, curves, color)
 
+if nargin < 3
+    color = 'r';
+end
 % OVERLAYCURVES(IMAGE, CURVES)
 %
 % Displays CURVES overlayed on IMAGE
@@ -17,7 +20,7 @@ while trypointer <= insize,
   polylength = curves(2, trypointer);
 
   plot(curves(1, (trypointer+1):(trypointer+polylength)), ...
-       curves(2, (trypointer+1):(trypointer+polylength)));
+       curves(2, (trypointer+1):(trypointer+polylength)), color);
 
   trypointer = trypointer + 1 + polylength;
 end;

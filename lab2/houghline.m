@@ -1,4 +1,4 @@
-function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, nlines, verbose)
+function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, nlines, verbose,vote_mode)
     % Check if input appear to be valid
     
     % Allocate accumulator space
@@ -33,24 +33,32 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
     
     curves_matrix=pixelplotcurves(zeros(size(magnitude)),curves,1);
     
-    for x=1:size(curves_matrix,1)
-        for y=1:size(curves_matrix,2)
-            if curves_matrix(x,y) > 0 && magnitude(x,y)>threshold 
+    for x=1:size(curves_matrix,2)
+        for y=1:size(curves_matrix,1)
+            if curves_matrix(y,x) > 0 && magnitude(y,x)>threshold 
                 %update accumulator space
                 
                 for theta_idx = 1 : ntheta
                     theta = thetas(theta_idx);
                     % Compute rho for each theta value
                     %rho = y*cosd(theta) + x*sind(theta);
-                    rho = y*cosd(theta) + x*sind(theta);
+                    rho = x*cosd(theta) + y*sind(theta);
                     % Compute index values in the accumulator space
                     rho_idx = floor((rho-rho_min)/delta_rho)+1;
                     if(abs(rho-rhos(rho_idx)) >= delta_rho)
                         disp(rho-rhos(rho_idx))
                     end
-
+                    
                     % Update the accumulator
-                    acc(rho_idx,theta_idx) = acc(rho_idx,theta_idx) + 1;
+                    switch vote_mode 
+
+                        case 1
+                            acc(rho_idx,theta_idx) = acc(rho_idx,theta_idx) + 1;
+                        case 2
+                            acc(rho_idx,theta_idx) = acc(rho_idx,theta_idx) + 2.7183 * log(magnitude(y,x));
+                        otherwise
+                            acc(rho_idx,theta_idx) = acc(rho_idx,theta_idx) + 1;
+                    end
                 end
             end
         end
