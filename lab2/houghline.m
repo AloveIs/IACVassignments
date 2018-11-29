@@ -41,6 +41,7 @@ function [linepar acc] = houghline(curves, magnitude, nrho, ntheta, threshold, n
                 for theta_idx = 1 : ntheta
                     theta = thetas(theta_idx);
                     % Compute rho for each theta value
+                    %rho = y*cosd(theta) + x*sind(theta);
                     rho = y*cosd(theta) + x*sind(theta);
                     % Compute index values in the accumulator space
                     rho_idx = floor((rho-rho_min)/delta_rho)+1;
