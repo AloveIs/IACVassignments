@@ -21,8 +21,8 @@ tic
 for l=1:3
 
     fprintf('Find Gaussian mixture models...\n');
-    fprob = mixture_prob(I, K, 10, mask);
-    bprob = mixture_prob(I, K, 10, 1-mask);
+    fprob = mixture_prob_2(I, K, 10, mask);
+    bprob = mixture_prob_2(I, K, 10, 1-mask);
     prior = reshape(fprob ./ (fprob + bprob), size(I,1), size(I,2), 1);
     toc
 

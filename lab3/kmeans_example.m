@@ -1,5 +1,5 @@
-K = 8;               % number of clusters used
-L = 10;              % number of iterations
+K = 10;               % number of clusters used
+L = 30;              % number of iterations
 seed = 14;           % seed used for random initialization
 scale_factor = 1.0;  % image downscale factor
 image_sigma = 1.0;   % image preblurring scale

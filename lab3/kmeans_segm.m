@@ -5,15 +5,23 @@ function [ segmentation, centers ] = kmeans_segm(image, K, L, seed)
     
     I = double(reshape(image,n_pixels , 3));
     
-    
-    centers = normrnd(128,64,K,3);
-    
+    centers = mvnrnd(mean(I),50*eye(3),K);
+%    disp(centers)
+    old_centers = centers;
     
     for iteration = 1 : L
         segmentation = compute_segmentation(I, centers);
 
         centers = update_centers(segmentation,I,centers);
+        centers(isnan(centers)) = 0;
+%        disp(norm(centers - old_centers,'fro')/K);
 
+%         if norm(centers - old_centers,'fro')/K < 1
+%             fprintf("Stopped at iteration %g\n", iteration);
+%             segmentation = reshape(segmentation,height,width);
+%             return;
+%         end
+        old_centers = centers;
     end
     segmentation = reshape(segmentation,height,width);
 end
