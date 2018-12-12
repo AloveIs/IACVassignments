@@ -14,8 +14,11 @@ function [ segmentation, centers ] = kmeans_segm(image, K, L, seed)
 
         centers = update_centers(segmentation,I,centers);
         centers(isnan(centers)) = 0;
-%        disp(norm(centers - old_centers,'fro')/K);
-
+        %disp(norm(centers - old_centers,'fro')/K);
+        if norm(centers - old_centers,'fro')/K < 10e-9
+            disp(iteration);
+            break;
+        end
 %         if norm(centers - old_centers,'fro')/K < 1
 %             fprintf("Stopped at iteration %g\n", iteration);
 %             segmentation = reshape(segmentation,height,width);
