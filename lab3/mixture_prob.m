@@ -1,9 +1,4 @@
-% https://github.com/txzhao/Image-Analysis-Computer-Vision/tree/master/image-segmentation/script
 function [prob, centers] = mixture_prob(image, K, L, mask)
-
-% L: number of iterations
-% prob: probability of the color of pixels
-
 
 % Let I be a set of pixels and V be a set of K Gaussian components in 3D (R,G,B)
 % Store all pixels for which mask = 1 in a Nx3 matrix
